@@ -35,7 +35,7 @@ public class BlockingServer {
                 logger.info("Новое подключение: " + clientSocket.getRemoteSocketAddress());
                 handleClient(clientSocket);
             } catch (SocketTimeoutException e) {
-                // ничего не логируем, это норма
+                // ничего
             }catch (IOException e) {
                 if (running) {
                     logger.log(Level.WARNING, "Ошибка при принятии подключения", e);
@@ -59,7 +59,6 @@ public class BlockingServer {
 
             byte[] requestBytes = new byte[dataLength];
             dis.readFully(requestBytes);
-            logger.fine("Получен запрос, байт: " + dataLength);
 
             CommandRequest request = SerializationHelper.deserialize(requestBytes, CommandRequest.class);
             if (request == null) {
@@ -76,7 +75,6 @@ public class BlockingServer {
             dos.write(responseBytes);
             dos.flush();
 
-            logger.fine("Ответ отправлен, тип: " + response.getType());
 
         } catch (IOException e) {
             logger.log(Level.WARNING, "Ошибка при обработке клиента", e);
