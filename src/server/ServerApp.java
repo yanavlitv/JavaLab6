@@ -2,7 +2,7 @@ package server;
 
 import server.commands.CommandExecutor;
 import server.io.FileManager;
-import server.network.BlockingServer;
+import server.network.TCPServer;
 import server.utils.Constants;
 import models.Worker;
 
@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 
 public class ServerApp {
     private static final Logger logger = Logger.getLogger(ServerApp.class.getName());
-    private static BlockingServer server;
+    private static TCPServer server;
     private static CommandExecutor commandExecutor;
     private static HashMap<String, Worker> collection;
     private static boolean running = true;
@@ -32,7 +32,7 @@ public class ServerApp {
         commandExecutor = new CommandExecutor(collection, fileName);
 
         try {
-            server = new BlockingServer(Constants.PORT, commandExecutor);
+            server = new TCPServer(Constants.PORT, commandExecutor);
             Thread serverThread = new Thread(() -> {
                 try {
                     server.start();
